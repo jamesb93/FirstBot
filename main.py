@@ -5,6 +5,7 @@ import datetime
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, BaseFilter
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup, ReplyKeyboardMarkup
 from filters import _lidget, _thorncliffe, _southgate, _gym, _town
+print('Booting FirstBot')
 
 # tokens and api keys
 APP_ID = os.environ.get("TRANSPORT_API_ID")

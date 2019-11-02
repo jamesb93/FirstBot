@@ -1,4 +1,5 @@
 import telegram
+import os
 import requests
 import datetime
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, BaseFilter
@@ -6,9 +7,9 @@ from telegram import InlineKeyboardButton, InlineKeyboardMarkup, ReplyKeyboardMa
 from filters import _lidget, _thorncliffe, _southgate, _gym, _town
 
 # tokens and api keys
-APP_ID = "c93efe1b"
-APP_KEY = "eb40d1dd2a7d00f50e830e7b80816501"
-TOKEN = '1055417369:AAHc3TbfOyBN9KMbfx6QXv654odNkhAJPok'
+APP_ID = os.environ.get("TRANSPORT_API_ID")
+APP_KEY = os.environ.get("TRANSPORT_API_KEY")
+TOKEN = os.environ.get("FIRST_BOT_TOKEN")
 
 codes = {
     'Lidget' : 450022757,

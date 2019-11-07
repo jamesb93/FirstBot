@@ -55,6 +55,13 @@ def get_info(update, context):
     keys = [k for k in data.keys()]
     values = [v for v in data.values()]
     departures = data['departures']['all']
+    if len(departures) == 0:
+        context.bot.send_message(
+            chat_id=update.effective_chat.id,
+            text="_NO BUSES_",
+            parse_mode=telegram.ParseMode.MARKDOWN
+        )
+
     for i in range(len(departures)):
         bus_info = departures[i]
         if bus_info['operator'] == 'FCH':
@@ -62,7 +69,6 @@ def get_info(update, context):
             time = bus_info['best_departure_estimate']
             post = f'*{route_number}* - {time} \n'
             all_bus_info += post
-
 
     context.bot.send_message(
         chat_id=update.effective_chat.id, 

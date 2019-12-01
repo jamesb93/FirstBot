@@ -64,7 +64,7 @@ def get_info(update, context):
 
     for i in range(len(departures)):
         bus_info = departures[i]
-        if bus_info['operator'] == 'FCH':
+        if bus_info['operator'] == 'FHUD':
             route_number = bus_info['line']
             time = bus_info['best_departure_estimate']
             post = f'*{route_number}* - {time} \n'

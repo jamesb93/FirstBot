@@ -1,11 +1,12 @@
-import telegram
-import os
-import requests
-import datetime
+import telegram, os, requests, datetime, logging
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, BaseFilter
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup, ReplyKeyboardMarkup
 from filters import _lidget, _thorncliffe, _southgate, _gym, _town
-print('Booting FirstBot')
+
+# logging.basicConfig(
+#     level=logging.DEBUG,
+#     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+# )
 
 # tokens and api keys
 APP_ID = os.environ.get("TRANSPORT_API_ID")
@@ -19,6 +20,12 @@ codes = {
     'Gym' : 450022495,
     'Town' : 450016800
 }
+
+bus_operators = [
+    'FHUD',
+    'FCH',
+    'FWYO'
+]
 
 bot = telegram.Bot(token=TOKEN)
 updater = Updater(token=TOKEN, use_context=True)
@@ -52,8 +59,6 @@ def get_info(update, context):
     timetable_request = f'http://transportapi.com/v3/uk/bus/stop/{stop}/live.json?&app_id={APP_ID}&app_key={APP_KEY}&group=no'
     r = requests.get(timetable_request)
     data = r.json()
-    keys = [k for k in data.keys()]
-    values = [v for v in data.values()]
     departures = data['departures']['all']
     if len(departures) == 0:
         context.bot.send_message(
@@ -64,7 +69,7 @@ def get_info(update, context):
 
     for i in range(len(departures)):
         bus_info = departures[i]
-        if bus_info['operator'] == 'FHUD':
+        if bus_info['operator'] in bus_operators:
             route_number = bus_info['line']
             time = bus_info['best_departure_estimate']
             post = f'*{route_number}* - {time} \n'
@@ -76,11 +81,11 @@ def get_info(update, context):
         parse_mode=telegram.ParseMode.MARKDOWN
     )
 
-lidget_handler = MessageHandler(lidget_filter, get_info)
-thorncliffe_handler = MessageHandler(thorncliffe_filter, get_info)
-southgate_handler = MessageHandler(southgate_filter, get_info)
-gym_handler = MessageHandler(gym_filter, get_info)
-town_handler = MessageHandler(town_filter, get_info)
+lidget_handler       = MessageHandler(lidget_filter, get_info)
+thorncliffe_handler  = MessageHandler(thorncliffe_filter, get_info)
+southgate_handler    = MessageHandler(southgate_filter, get_info)
+gym_handler          = MessageHandler(gym_filter, get_info)
+town_handler         = MessageHandler(town_filter, get_info)
 
 dispatcher.add_handler(lidget_handler)
 dispatcher.add_handler(thorncliffe_handler)

@@ -3,10 +3,10 @@ from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, BaseF
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup, ReplyKeyboardMarkup
 from filters import _lidget, _thorncliffe, _southgate, _gym, _town
 
-# logging.basicConfig(
-#     level=logging.DEBUG,
-#     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
-# )
+logging.basicConfig(
+    level=logging.DEBUG,
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+)
 
 # tokens and api keys
 APP_ID = os.environ.get("TRANSPORT_API_ID")
